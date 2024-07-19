@@ -4,12 +4,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import '../styles/Form.css'
 
 export default function UpdatePassword() {
+
     let navigate = useNavigate()
     const { id } = useParams()
 
     const [password, setPassword] = useState({ name: "" })
     const [error, setError] = useState(null)
     const { name } = password
+
+    const DEFAULT_ERROR_MESSAGE = "There was a problem with the request. Contact an administrator."
 
     const onInputChange = (event) => {
         setPassword({ ...password, [event.target.name]: event.target.value })
@@ -23,11 +26,11 @@ export default function UpdatePassword() {
             await axios.patch(`http://localhost:8080/api/v1/passwords/${id}`, password)
             navigate("/")
         } catch (err) {
-            if (err.response.data.message) {
+            if (err.response) {
                 const { message, status, timestamp } = err.response.data
                 setError({ message, status, timestamp })
             } else {
-                setError({ message: "Name must be between 2 and 30 characters", status: 400, timestamp: new Date().toISOString() })
+                setError({ message: DEFAULT_ERROR_MESSAGE, status: 500, timestamp: new Date().toISOString() })
             }
         }
     }
@@ -41,7 +44,7 @@ export default function UpdatePassword() {
                 const { message, status, timestamp } = err.response.data
                 setError({ message, status, timestamp })
             } else {
-                setError({ message: "There was an error with the request", status: 500, timestamp: new Date().toISOString() })
+                setError({ message: DEFAULT_ERROR_MESSAGE, status: 500, timestamp: new Date().toISOString() })
             }
         }
     }

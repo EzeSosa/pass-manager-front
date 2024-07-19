@@ -11,6 +11,8 @@ export default function AddPassword() {
   const [error, setError] = useState(null)
   const { name } = password
 
+  const DEFAULT_ERROR_MESSAGE = "There was a problem with the request. Contact an administrator."
+
   const onInputChange = (event) => {
     setPassword({ ...password, [event.target.name]: event.target.value })
   }
@@ -21,11 +23,11 @@ export default function AddPassword() {
       await axios.post("http://localhost:8080/api/v1/passwords", password)
       navigate("/")
     } catch (err) {
-      if (err.response.data.message) {
+      if (err.response) {
         const { message, status, timestamp } = err.response.data
         setError({ message, status, timestamp })
       } else {
-        setError({ message: "Name must be between 2 and 30 characters", status: 400, timestamp: new Date().toISOString() })
+        setError({ message: DEFAULT_ERROR_MESSAGE, status: 500, timestamp: new Date().toISOString() })
       }
     }
   }
