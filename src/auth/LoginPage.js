@@ -65,7 +65,7 @@ export default function LoginPage() {
                         <button type='submit' className='btn btn-outline-primary mx-1' style={{ width: '150px' }}>Log In</button>
                     </form>
                     <div className='row p-3'>
-                        <Link to="/signin">Don't have an account? Sign Up.</Link>
+                        <Link to="/signup">Don't have an account? Sign Up.</Link>
                     </div>
                     {error && (
                         <div className="alert alert-danger mt-4">

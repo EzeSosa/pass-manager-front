@@ -7,12 +7,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import AddPassword from './passwords/AddPassword'
 import UpdatePassword from './passwords/UpdatePassword'
 import LoginPage from './auth/LoginPage'
-import SigninPage from './auth/SigninPage'
+import SignupPage from './auth/SignupPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function MainLayout() {
   const location = useLocation()
-  const showNavbar = location.pathname !== "/login" && location.pathname !== "/signin"
+  const showNavbar = location.pathname !== "/login" && location.pathname !== "/signup"
 
   return (
     <>
@@ -20,7 +20,7 @@ function MainLayout() {
       <div className="container">
         <Routes>
           <Route exact path="/login" element={<LoginPage />} />
-          <Route exact path="/signin" element={<SigninPage />} />
+          <Route exact path="/signup" element={<SignupPage />} />
           <Route exact path="/home" element={<ProtectedRoute element={<Home />} />} />
           <Route exact path="/addpassword" element={<ProtectedRoute element={<AddPassword />} />} />
           <Route exact path="/updatepassword/:id" element={<ProtectedRoute element={<UpdatePassword />} />} />
