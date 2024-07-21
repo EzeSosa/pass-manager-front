@@ -1,23 +1,31 @@
 import React from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import '../styles/Navbar.css'
 
 export default function LoggedNavbar() {
-    const onSubmit = async (event) => {
-        event.preventDefault()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
         localStorage.removeItem('userId')
         localStorage.removeItem('accessToken')
+        navigate("/login")
     }
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark custom-navbar">
             <div className="container">
-                <Link className="navbar-brand" to="#">
+                <Link className="navbar-brand" to="/home">
                     Password Manager
                 </Link>
-                <div className="ms-auto">
-                    <Link className="btn custom-btn" to="/addpassword">Generate New Password</Link>
-                    <Link className="btn custom-btn" to="/login" onSubmit={onSubmit}>Logout</Link>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav ms-auto">
+                        <li className="nav-item">
+                            <Link className="btn btn-outline-light nav-link border" to="/addpassword">Generate Password</Link>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-outline-light nav-link border" onClick={handleLogout}>Log Out</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
