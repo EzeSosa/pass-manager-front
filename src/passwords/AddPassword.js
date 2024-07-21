@@ -9,6 +9,9 @@ export default function AddPassword() {
 
   const [password, setPassword] = useState({ name: "" })
   const [error, setError] = useState(null)
+
+  const accessToken = localStorage.getItem('accessToken')
+  const userId = localStorage.getItem('userId')
   const { name } = password
 
   const DEFAULT_ERROR_MESSAGE = "There was a problem with the request. Contact an administrator."
@@ -20,8 +23,12 @@ export default function AddPassword() {
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      await axios.post("http://localhost:8080/api/v1/passwords", password)
-      navigate("/")
+      await axios.post(
+        "http://localhost:8080/api/v1/passwords", 
+        { name, userId },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      )
+      navigate("/home")
     } catch (err) {
       if (err.response) {
         const { message, status, timestamp } = err.response.data
@@ -50,8 +57,8 @@ export default function AddPassword() {
                 onChange={(event) => onInputChange(event)}
               />
             </div>
-            <button type='submit' className='btn btn-outline-primary mx-1' style={{ width: '150px' }}>Generate</button>
-            <Link type='submit' className='btn btn-outline-danger mx-1' style={{ width: '150px' }} to="/">Cancel</Link>
+            <button type='submit' className='btn btn-outline-primary btn-submit'>Generate</button>
+            <Link className='btn btn-outline-danger btn-submit' to="/home">Cancel</Link>
           </form>
 
           {error && (
