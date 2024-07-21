@@ -1,17 +1,23 @@
 .custom-navbar {
     background-color: #333;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
 }
 
 .custom-navbar .navbar-brand {
-    font-family: 'Montserrat', sans-serif;
+    color: #fff;
     font-size: 1.5rem;
 }
 
-.custom-navbar .ms-auto {
-    margin-left: auto;
+.custom-btn {
+    border-radius: 50px;
+    color: #fff;
+    border: 1px solid transparent;
 }
 
-.custom-btn {
-    font-family: 'Montserrat', sans-serif;
-    border-radius: 20px;
+.custom-btn:hover {
+    background-color: #fff;
+    color: #333;
+    border-color: #333;
 }
