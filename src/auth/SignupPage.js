@@ -5,7 +5,7 @@ import '../styles/LoginPage.css'
 
 const DEFAULT_ERROR_MESSAGE = "There was a problem with the request. Contact an administrator."
 
-export default function SigninPage() {
+export default function SignupPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
@@ -41,7 +41,7 @@ export default function SigninPage() {
         <div className='container'>
             <div className='row'>
                 <div className='border rounded p-4 mt-2 shadow'>
-                    <h2 className='text-center m-4'>Create an Account</h2>
+                    <h2 className='text-center m-4'>Create a Password Manager Account</h2>
                     <form onSubmit={onSubmit}>
                         <div className='mb-3'>
                             <div className='d-flex align-items-center mb-2'>
