@@ -6,6 +6,7 @@ import { UseError } from '../hooks/UseError'
 
 const PasswordForm = ({ isUpdate = false }) => {
     const [password, setPassword] = useState({ name: "" })
+    const [charge, setCharge] = useState(true)
     const { error, handleError } = UseError()
     const navigate = useNavigate()
     const { id } = useParams()
@@ -14,18 +15,18 @@ const PasswordForm = ({ isUpdate = false }) => {
     const { name } = password
 
     useEffect(() => {
-        if (isUpdate) {
+        if (isUpdate && charge) {
             const loadPassword = async () => {
                 try {
                     const result = await axios.get(`http://localhost:8080/api/v1/passwords/${id}`, {
                         headers: { Authorization: `Bearer ${accessToken}` }
                     })
                     setPassword(result.data)
+                    setCharge(false)
                 } catch (err) {
                     handleError(err)
                 }
             }
-
             loadPassword()
         }
     }, [isUpdate, id, accessToken, handleError])
