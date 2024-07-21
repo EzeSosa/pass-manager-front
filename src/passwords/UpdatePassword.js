@@ -11,6 +11,7 @@ export default function UpdatePassword() {
     const [password, setPassword] = useState({ name: "" })
     const [error, setError] = useState(null)
     const { name } = password
+    const accessToken = localStorage.getItem('accessToken')
 
     const DEFAULT_ERROR_MESSAGE = "There was a problem with the request. Contact an administrator."
 
@@ -23,8 +24,12 @@ export default function UpdatePassword() {
     const onSubmit = async (event) => {
         event.preventDefault()
         try {
-            await axios.patch(`http://localhost:8080/api/v1/passwords/${id}`, password)
-            navigate("/")
+            await axios.patch(
+                `http://localhost:8080/api/v1/passwords/${id}`, 
+                { name },
+                { headers: { Authorization: `Bearer ${accessToken}` } }
+            )
+            navigate("/home")
         } catch (err) {
             if (err.response) {
                 const { message, status, timestamp } = err.response.data
@@ -37,7 +42,10 @@ export default function UpdatePassword() {
 
     const loadPassword = async () => {
         try {
-            const result = await axios.get(`http://localhost:8080/api/v1/passwords/${id}`)
+            const result = await axios.get(
+                `http://localhost:8080/api/v1/passwords/${id}`,
+                { headers: { Authorization: `Bearer ${accessToken}` } }
+        )
             setPassword(result.data)
         } catch (err) {
             if (err.response) {
@@ -67,9 +75,10 @@ export default function UpdatePassword() {
                                 onChange={(event) => onInputChange(event)}
                             />
                         </div>
-                        <button type='submit' className='btn btn-outline-primary mx-1' style={{ width: '150px' }}>Update</button>
-                        <Link type='submit' className='btn btn-outline-danger mx-1' style={{ width: '150px' }} to="/">Cancel</Link>
+                        <button type='submit' className='btn btn-outline-primary btn-submit'>Update</button>
+                        <Link className='btn btn-outline-danger btn-submit' to="/home">Cancel</Link>
                     </form>
+
 
                     {error && (
                         <div className="alert alert-danger mt-4">
