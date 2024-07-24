@@ -6,26 +6,33 @@ import { UseError } from '../hooks/UseError'
 
 export default function Home() {
     const [passwords, setPasswords] = useState([])
+    const [pageNumber, setPageNumber] = useState(0)
+    const [totalPages, setTotalPages] = useState(1)
+
     const { error, handleError } = UseError()
+
     const userId = localStorage.getItem('userId')
     const accessToken = localStorage.getItem('accessToken')
 
     const BASE_URL = "http://localhost:8080/api/v1/users"
+    const size = 5
 
     useEffect(() => {
         const loadPasswords = async () => {
             try {
                 const result = await axios.get(`${BASE_URL}/${userId}/passwords`, {
-                    headers: { Authorization: `Bearer ${accessToken}` }
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                    params: { size: size, pageNumber: pageNumber }
                 })
-                setPasswords(result.data)
+                setPasswords(result.data.content)
+                setTotalPages(result.data.totalPages)
             } catch (err) {
                 handleError(err)
             }
         }
 
         loadPasswords()
-    }, [userId, accessToken, handleError])
+    }, [userId, accessToken, handleError, pageNumber])
 
     const deletePassword = async (id) => {
         try {
@@ -38,13 +45,24 @@ export default function Home() {
         }
     }
 
+    const handleNextPage = () => {
+        if (pageNumber < totalPages - 1) {
+            setPageNumber(pageNumber + 1)
+        }
+    }
+
+    const handlePreviousPage = () => {
+        if (pageNumber > 0) {
+            setPageNumber(pageNumber - 1)
+        }
+    }
+
     return (
         <div className='container'>
             <div className='table-container'>
                 <table className="table custom-table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Password</th>
                             <th scope="col">Action</th>
@@ -53,7 +71,6 @@ export default function Home() {
                     <tbody>
                         {passwords.map((password, index) => (
                             <tr key={index}>
-                                <th scope="row">{index + 1}</th>
                                 <td>{password.name}</td>
                                 <td>{password.password}</td>
                                 <td>
@@ -68,6 +85,14 @@ export default function Home() {
                         ))}
                     </tbody>
                 </table>
+                <div className="pagination-buttons">
+                    <button className='btn btn-secondary mx-2' onClick={handlePreviousPage} disabled={pageNumber === 0}>
+                        {'<'}
+                    </button>
+                    <button className='btn btn-secondary mx-2' onClick={handleNextPage} disabled={pageNumber >= totalPages - 1}>
+                        {'>'}
+                    </button>
+                </div>
                 {error && (
                     <div className="alert alert-danger mt-4">
                         <p><strong>Error:</strong> {error.message}</p>
