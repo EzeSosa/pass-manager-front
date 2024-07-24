@@ -10,10 +10,12 @@ export default function Home() {
     const userId = localStorage.getItem('userId')
     const accessToken = localStorage.getItem('accessToken')
 
+    const BASE_URL = "http://localhost:8080/api/v1/users"
+
     useEffect(() => {
-        const loadUsers = async () => {
+        const loadPasswords = async () => {
             try {
-                const result = await axios.get(`http://localhost:8080/api/v1/users/${userId}/passwords`, {
+                const result = await axios.get(`${BASE_URL}/${userId}/passwords`, {
                     headers: { Authorization: `Bearer ${accessToken}` }
                 })
                 setPasswords(result.data)
@@ -22,7 +24,7 @@ export default function Home() {
             }
         }
 
-        loadUsers()
+        loadPasswords()
     }, [userId, accessToken, handleError])
 
     const deletePassword = async (id) => {

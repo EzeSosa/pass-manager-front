@@ -12,9 +12,11 @@ export default function SignupPage() {
 
     const navigate = useNavigate()
 
+    const BASE_URL = "http://localhost:8080/auth"
+
     const handleRegister = async () => {
         try {
-            await axios.post("http://localhost:8080/auth/register", { username, password })
+            await axios.post(`${BASE_URL}/register`, { username, password })
             await handleLogin()
         } catch (err) {
             const message = err.response?.data?.message || DEFAULT_ERROR_MESSAGE
@@ -25,7 +27,7 @@ export default function SignupPage() {
     }
 
     const handleLogin = async () => {
-        const response = await axios.post("http://localhost:8080/auth/login", { username, password })
+        const response = await axios.post(`${BASE_URL}/login`, { username, password })
         const { accessToken, userId } = response.data
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('userId', userId)

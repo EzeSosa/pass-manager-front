@@ -7,18 +7,23 @@ import { UseError } from '../hooks/UseError'
 const PasswordForm = ({ isUpdate = false }) => {
     const [password, setPassword] = useState({ name: "" })
     const [charge, setCharge] = useState(true)
+
     const { error, handleError } = UseError()
-    const navigate = useNavigate()
     const { id } = useParams()
+    const { name } = password
+    
+    const navigate = useNavigate()
+
     const accessToken = localStorage.getItem('accessToken')
     const userId = localStorage.getItem('userId')
-    const { name } = password
+    
+    const BASE_URL = "http://localhost:8080/api/v1/passwords"
 
     useEffect(() => {
         if (isUpdate && charge) {
             const loadPassword = async () => {
                 try {
-                    const result = await axios.get(`http://localhost:8080/api/v1/passwords/${id}`, {
+                    const result = await axios.get(`${BASE_URL}/${id}`, {
                         headers: { Authorization: `Bearer ${accessToken}` }
                     })
                     setPassword(result.data)
@@ -38,8 +43,8 @@ const PasswordForm = ({ isUpdate = false }) => {
     const onSubmit = async (event) => {
         event.preventDefault()
         const url = isUpdate
-            ? `http://localhost:8080/api/v1/passwords/${id}`
-            : `http://localhost:8080/api/v1/passwords`
+            ? `${BASE_URL}/${id}`
+            : BASE_URL
 
         const method = isUpdate ? 'patch' : 'post'
 
