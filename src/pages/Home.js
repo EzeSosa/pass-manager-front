@@ -15,7 +15,7 @@ export default function Home() {
     const accessToken = localStorage.getItem('accessToken')
 
     const BASE_URL = "http://localhost:8080/api/v1/users"
-    const size = 5
+    const size = 6
 
     useEffect(() => {
         const loadPasswords = async () => {
@@ -30,7 +30,6 @@ export default function Home() {
                 handleError(err)
             }
         }
-
         loadPasswords()
     }, [userId, accessToken, handleError, pageNumber])
 
