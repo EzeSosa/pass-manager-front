@@ -85,12 +85,8 @@ export default function Home() {
                     </tbody>
                 </table>
                 <div className="pagination-buttons">
-                    <button className='btn btn-secondary mx-2' onClick={handlePreviousPage} disabled={pageNumber === 0}>
-                        {'<'}
-                    </button>
-                    <button className='btn btn-secondary mx-2' onClick={handleNextPage} disabled={pageNumber >= totalPages - 1}>
-                        {'>'}
-                    </button>
+                    <button className='btn mx-1 btn-page' onClick={handlePreviousPage} disabled={pageNumber === 0}>{'<<'}</button>
+                    <button className='btn mx-1 btn-page' onClick={handleNextPage} disabled={pageNumber >= totalPages - 1}>{'>>'}</button>
                 </div>
                 {error && (
                     <div className="alert alert-danger mt-4">

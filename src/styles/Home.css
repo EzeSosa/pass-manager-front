@@ -40,6 +40,32 @@
     background-color: #c82333;
 }
 
+.btn-page {
+    color: #fff;
+    background-color: #000000;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.btn-page:hover {
+    background-color: #444444;
+    border-color: #444444;
+    color: #fff;
+}
+
+.btn-page:active {
+    background-color: #222222;
+    border-color: #222222;
+    color: #fff;
+}
+
+.btn-page:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
 .alert {
     margin-top: 20px;
 }
