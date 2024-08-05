@@ -23,7 +23,7 @@ function MainLayout() {
           <Route exact path="/signup" element={<SignupPage />} />
           <Route exact path="/home" element={<ProtectedRoute element={<Home />} />} />
           <Route exact path="/addpassword" element={<ProtectedRoute element={<AddPassword />} />} />
-          <Route exact path="/updatepassword/:id" element={<ProtectedRoute element={<UpdatePassword />} />} />
+          <Route exact path="/updatepassword/:passwordId" element={<ProtectedRoute element={<UpdatePassword />} />} />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>

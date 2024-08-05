@@ -14,7 +14,7 @@ export default function Home() {
     const userId = localStorage.getItem('userId')
     const accessToken = localStorage.getItem('accessToken')
 
-    const BASE_URL = "http://localhost:8080/api/v1/users"
+    const BASE_URL = "http://localhost:9000/api/v1/users"
     const size = 6
 
     useEffect(() => {
@@ -33,12 +33,12 @@ export default function Home() {
         loadPasswords()
     }, [userId, accessToken, handleError, pageNumber])
 
-    const deletePassword = async (id) => {
+    const deletePassword = async (passwordId) => {
         try {
-            await axios.delete(`http://localhost:8080/api/v1/passwords/${id}`, {
+            await axios.delete(`http://localhost:9000/api/v1/passwords/${passwordId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             })
-            setPasswords(passwords.filter(password => password.id !== id))
+            setPasswords(passwords.filter(password => password.passwordId !== passwordId))
         } catch (err) {
             handleError(err)
         }
@@ -73,10 +73,10 @@ export default function Home() {
                                 <td>{password.name}</td>
                                 <td>{password.password}</td>
                                 <td>
-                                    <Link className='btn btn-update mx-2' to={`/updatepassword/${password.id}`}>
+                                    <Link className='btn btn-update mx-2' to={`/updatepassword/${password.passwordId}`}>
                                         Update
                                     </Link>
-                                    <button className='btn btn-delete mx-2' onClick={() => deletePassword(password.id)}>
+                                    <button className='btn btn-delete mx-2' onClick={() => deletePassword(password.passwordId)}>
                                         Delete
                                     </button>
                                 </td>

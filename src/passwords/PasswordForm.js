@@ -9,21 +9,21 @@ const PasswordForm = ({ isUpdate = false }) => {
     const [charge, setCharge] = useState(true)
 
     const { error, handleError } = UseError()
-    const { id } = useParams()
+    const { passwordId } = useParams()
     const { name } = password
-    
+
     const navigate = useNavigate()
 
     const accessToken = localStorage.getItem('accessToken')
     const userId = localStorage.getItem('userId')
-    
-    const BASE_URL = "http://localhost:8080/api/v1/passwords"
+
+    const BASE_URL = "http://localhost:9000/api/v1/passwords/"
 
     useEffect(() => {
         if (isUpdate && charge) {
             const loadPassword = async () => {
                 try {
-                    const result = await axios.get(`${BASE_URL}/${id}`, {
+                    const result = await axios.get(`${BASE_URL}${passwordId}`, {
                         headers: { Authorization: `Bearer ${accessToken}` }
                     })
                     setPassword(result.data)
@@ -34,7 +34,7 @@ const PasswordForm = ({ isUpdate = false }) => {
             }
             loadPassword()
         }
-    }, [isUpdate, id, accessToken, handleError])
+    }, [isUpdate, passwordId, accessToken, handleError])
 
     const onInputChange = (event) => {
         setPassword({ ...password, [event.target.name]: event.target.value })
@@ -43,7 +43,7 @@ const PasswordForm = ({ isUpdate = false }) => {
     const onSubmit = async (event) => {
         event.preventDefault()
         const url = isUpdate
-            ? `${BASE_URL}/${id}`
+            ? `${BASE_URL}${passwordId}`
             : BASE_URL
 
         const method = isUpdate ? 'patch' : 'post'

@@ -12,7 +12,7 @@ export default function SignupPage() {
 
     const navigate = useNavigate()
 
-    const BASE_URL = "http://localhost:8080/auth"
+    const BASE_URL = "http://localhost:9000/auth"
 
     const handleRegister = async () => {
         try {
@@ -28,7 +28,8 @@ export default function SignupPage() {
 
     const handleLogin = async () => {
         const response = await axios.post(`${BASE_URL}/login`, { username, password })
-        const { accessToken, userId } = response.data
+        const { accessToken, user } = response.data
+        const { userId } = user
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('userId', userId)
         navigate("/home")
