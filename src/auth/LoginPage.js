@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 import '../styles/LoginPage.css'
 
 const DEFAULT_ERROR_MESSAGE = "There was a problem with the request. Contact an administrator."
@@ -14,22 +14,21 @@ export default function LoginPage() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("http://localhost:9000/auth/login", { username, password })
-            const { accessToken, user } = response.data
+            const response = await apiClient.post("auth/login", { username, password })
+            const { accessToken, refreshToken, user } = response.data
             const { userId } = user
             localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem('refreshToken', refreshToken)
             localStorage.setItem('userId', userId)
 
             navigate("/home")
         } catch (err) {
-            console.log(err)
             const message = err.response?.data?.message || DEFAULT_ERROR_MESSAGE
             const status = err.response?.status || 500
             const timestamp = new Date().toISOString()
             setError({ message, status, timestamp })
         }
     }
-
 
     const onSubmit = (event) => {
         event.preventDefault()
